@@ -3,6 +3,7 @@ const password = document.querySelector("#password");
 const signUp = document.querySelector("#sign_up");
 const signIn = document.querySelector("#sign_in");
 const signOut = document.querySelector("#sign_out");
+const signMagiclink = document.querySelector("#sign_magiclink");
 const signGoogle = document.querySelector("#sign_google");
 
 const { createClient } = supabase;
@@ -20,81 +21,123 @@ window.addEventListener("DOMContentLoaded", () => {
 		.then((response) => response.json())
 		.then((result) => console.log(result))
 		.catch((error) => console.log("error", error));
-});
-//signUP
-signUp.addEventListener("click", (e) => {
-	e.preventDefault();
 
-	console.log(email.value);
-	console.log(password.value);
+	//SignUP
+	signUp.addEventListener("click", (e) => {
+		e.preventDefault();
 
-	const post = {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			email: email.value,
-			password: password.value,
-		}),
-	};
+		console.log(email.value);
+		console.log(password.value);
 
-	fetch("http://localhost:3001/signUp/", post)
-		.then((response) => response.text())
-		.then((result) => console.log(result))
-		.catch((error) => console.log("error", error));
-});
+		const post = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				email: email.value,
+				password: password.value,
+			}),
+		};
 
-//signIN
-signIn.addEventListener("click", async (e) => {
-	e.preventDefault();
-
-	console.log(email.value);
-	console.log(password.value);
-
-	var post = {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			email: email.value,
-			password: password.value,
-		}),
-	};
-
-	fetch("http://localhost:3001/logIn/", post)
-		.then((response) => response.text())
-		.then((result) => console.log(result))
-		.catch((error) => console.log("error", error));
-});
-
-//signOUT
-signOut.addEventListener("click", (e) => {
-	e.preventDefault();
-
-	console.log(email.value);
-	console.log(password.value);
-
-	var post = {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			email: email.value,
-			password: password.value,
-		}),
-	};
-
-	fetch("http://localhost:3001/logOut/", post)
-		.then((response) => response.text())
-		.then((result) => console.log(result))
-		.catch((error) => console.log("error", error));
-});
-
-//singGOOGLE
-async function signInWithGoogle() {
-	const { user, session, error } = await supabase.auth.signIn({
-		provider: "google",
+		fetch("http://localhost:3001/signUp/", post)
+			.then((response) => response.text())
+			.then((result) => {
+				console.log(result);
+				if (result.length === 0) {
+					alert("please check your email");
+				}
+				if (result.length !== 0) {
+					alert("this user already exist");
+				}
+			})
+			.catch((error) => console.log("error", error));
 	});
-}
-signGoogle.addEventListener("click", (e) => {
-	e.preventDefault();
-	signInWithGoogle();
-	console.log(supabase.auth);
+
+	//LogIN
+	signIn.addEventListener("click", async (e) => {
+		e.preventDefault();
+
+		console.log(email.value);
+		console.log(password.value);
+
+		var post = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				email: email.value,
+				password: password.value,
+			}),
+		};
+
+		fetch("http://localhost:3001/logIn/", post)
+			.then((response) => response.text())
+			.then((result) => {
+				console.log(result);
+				if (result) {
+					console.log(result);
+				}
+				if (!result) {
+					console.log("no result");
+				}
+			})
+			.catch((error) => console.log("error", error));
+	});
+
+	//LogOUT
+	signOut.addEventListener("click", (e) => {
+		e.preventDefault();
+
+		console.log(email.value);
+		console.log(password.value);
+
+		var post = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				email: email.value,
+				password: password.value,
+			}),
+		};
+
+		fetch("http://localhost:3001/logOut/", post)
+			.then((response) => response.text())
+			.then((result) => console.log(result))
+			.catch((error) => console.log("error", error));
+	});
+	//SignMAGICLINK
+	signIn.addEventListener("click", async (e) => {
+		e.preventDefault();
+
+		console.log(email.value);
+
+		var post = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				email: email.value,
+			}),
+		};
+
+		fetch(`http://localhost:3001/authMagicLink/`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				email: props.email,
+			}),
+		})
+			.then((response) => response.json())
+			.then((result) => console.log(result))
+			.catch((error) => console.log("error", error));
+	});
+
+	//signGOOGLE
+	async function signInWithGoogle() {
+		const { user, session, error } = await supabase.auth.signIn({
+			provider: "google",
+		});
+	}
+	signGoogle.addEventListener("click", (e) => {
+		e.preventDefault();
+		signInWithGoogle();
+		console.log(supabase.auth);
+	});
 });
