@@ -12,15 +12,16 @@ supabase = createClient(
 	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMzM4MzE1NSwiZXhwIjoxOTQ4OTU5MTU1fQ.NHMBE0yY82XaMvPeBVWz56hIgjQLvYL9IkvsfFQkU8g"
 );
 
+const user = supabase.auth.user();
+console.log(user);
 console.log(supabase);
-
 //DOM
 window.addEventListener("DOMContentLoaded", () => {
 	//DATA
-	fetch("http://localhost:3001/api")
-		.then((response) => response.json())
-		.then((result) => console.log(result))
-		.catch((error) => console.log("error", error));
+	// fetch("http://localhost:3001/api")
+	// 	.then((response) => response.json())
+	// 	.then((result) => console.log(result))
+	// 	.catch((error) => console.log("error", error));
 
 	//SignUP
 	signUp.addEventListener("click", (e) => {
@@ -72,11 +73,10 @@ window.addEventListener("DOMContentLoaded", () => {
 			.then((response) => response.text())
 			.then((result) => {
 				console.log(result);
+				// if (result.data[0].admin === true) {
+				// 	window.location.href = `/admin/`;
 				if (result) {
-					console.log(result);
-				}
-				if (!result) {
-					console.log("no result");
+					window.location.href = `http://localhost:3001/`;
 				}
 			})
 			.catch((error) => console.log("error", error));
@@ -121,7 +121,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
-				email: props.email,
+				email: email.value,
 			}),
 		})
 			.then((response) => response.json())
