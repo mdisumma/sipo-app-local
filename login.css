@@ -44,7 +44,3 @@ button:hover {
 	padding: 10px;
 	color: white;
 }
-a {
-	text-decoration: none;
-	color: var(--green);
-}

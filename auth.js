@@ -12,17 +12,8 @@ supabase = createClient(
 	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMzM4MzE1NSwiZXhwIjoxOTQ4OTU5MTU1fQ.NHMBE0yY82XaMvPeBVWz56hIgjQLvYL9IkvsfFQkU8g"
 );
 
-const user = supabase.auth.user();
-console.log(user);
-console.log(supabase);
 //DOM
 window.addEventListener("DOMContentLoaded", () => {
-	//DATA
-	// fetch("http://localhost:3001/api")
-	// 	.then((response) => response.json())
-	// 	.then((result) => console.log(result))
-	// 	.catch((error) => console.log("error", error));
-
 	//SignUP
 	signUp.addEventListener("click", (e) => {
 		e.preventDefault();
@@ -70,13 +61,16 @@ window.addEventListener("DOMContentLoaded", () => {
 		};
 
 		fetch("http://localhost:3001/logIn/", post)
-			.then((response) => response.text())
+			.then((response) => response.json())
 			.then((result) => {
 				console.log(result);
-				// if (result.data[0].admin === true) {
-				// 	window.location.href = `/admin/`;
-				if (result) {
-					window.location.href = `http://localhost:3001/`;
+				if (result.data[0].admin === true) {
+					window.location.href = `http://localhost:3001/admin#${result.session.access_token}`;
+					console.log(result.data[0].admin);
+				}
+				if (result.data[0].admin === false) {
+					window.location.href = `http://localhost:3001/user#${result.session.access_token}`;
+					console.log(result.data[0].admin);
 				}
 			})
 			.catch((error) => console.log("error", error));
