@@ -65,11 +65,13 @@ window.addEventListener("DOMContentLoaded", () => {
 			.then((result) => {
 				console.log(result);
 				if (result.data[0].admin === true) {
-					window.location.href = `http://localhost:3001/admin#${result.session.access_token}`;
+					// window.location.href = `http://localhost:3001/admin#${result.session.access_token}`;
+					window.location.href = `http://localhost:3001/admin`;
 					console.log(result.data[0].admin);
 				}
 				if (result.data[0].admin === false) {
-					window.location.href = `http://localhost:3001/user#${result.session.access_token}`;
+					// window.location.href = `http://localhost:3001/user#${result.session.access_token}`;
+					window.location.href = `http://localhost:3001/user`;
 					console.log(result.data[0].admin);
 				}
 			})
