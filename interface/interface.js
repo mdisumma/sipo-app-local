@@ -1,4 +1,3 @@
-const id = document.querySelector("#id");
 const product = document.querySelector("#product");
 const pack = document.querySelector("#pack");
 const image = document.querySelector("#image");
@@ -13,7 +12,7 @@ const replace_price = document.querySelector("#replace_price");
 //DOM
 window.addEventListener("DOMContentLoaded", () => {
 	//DATA
-	fetch("http://localhost:3001/")
+	fetch("http://localhost:3001/api")
 		.then((response) => response.json())
 		.then((result) => console.log(result))
 		.catch((error) => console.log("error", error));
@@ -26,7 +25,6 @@ window.addEventListener("DOMContentLoaded", () => {
 		event.preventDefault();
 
 		const productValue = JSON.stringify({
-			id: id.value,
 			name: product.value,
 			pack: pack.value,
 			image: image.value,
@@ -52,7 +50,6 @@ window.addEventListener("DOMContentLoaded", () => {
 		event.preventDefault();
 
 		const productValue = JSON.stringify({
-			id: id.value,
 			name: product.value,
 			pack: pack.value,
 			image: image.value,
@@ -79,18 +76,17 @@ window.addEventListener("DOMContentLoaded", () => {
 		event.preventDefault();
 
 		const productReplace = JSON.stringify({
-			id: id.value,
 			name: product.value,
 			pack: pack.value,
 			image: image.value,
 			price: price.value,
-			replace_id: replace_id.value,
+
 			replace_name: replace_product.value,
 			replace_pack: replace_pack.value,
 			replace_image: replace_image.value,
 			replace_price: replace_price.value,
 		});
-		console.log(replace);
+		console.log(productReplace);
 
 		var put = {
 			method: "PUT",
